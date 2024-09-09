@@ -1,5 +1,4 @@
 import struct
-import threading
 from collections import deque as Deque
 
 MAX_PACKET_LEN = 64512
@@ -54,13 +53,11 @@ class DataGenerator:
         # Пропускаем уже считанные пакеты
         # но говорим, что всё окей.
         if packet.tag < self.tag:
-            # print('Filter duplicate packet {:d}'.format(packet.tag))
             return True
 
         # Пропускаем будущие пакеты но говорим, что произошла ошибка,
         # потому что мы пропустили пакет.
         if packet.tag > self.tag:
-            # print('Report future packet {:d} ({:d})'.format(packet.tag, self.tag))
             return False
         
         self.data += packet.data
